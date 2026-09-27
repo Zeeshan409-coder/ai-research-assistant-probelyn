@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+# Node
+node_modules/
+frontend/dist/
+# App data & secrets
+backend/data/
+data/
+.env
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
