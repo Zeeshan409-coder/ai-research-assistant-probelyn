@@ -150,8 +150,8 @@ def test_merge_papers_dedupes_and_fills_fields():
     a = papers.parse_arxiv(ARXIV_XML)
     s2 = papers.parse_s2(
         {"data": [
-            {"paperId": "x", "title": "Attention is all you need", "abstract": None, "authors": [{"name": "A. Vaswani"}],
-             "year": 2017, "venue": "NeurIPS", "citationCount": 100000, "url": "https://s2/x"},
+            {"paperId": "x", "title": "Attention is all you need", "abstract": None,
+             "authors": [{"name": "A. Vaswani"}], "year": 2017, "venue": "NeurIPS", "citationCount": 100000, "url": "https://s2/x"},
             {"paperId": "y", "title": "BERT", "abstract": "Bidirectional transformers.", "authors": [],
              "year": 2018, "citationCount": 50000, "externalIds": {"ArXiv": "1810.04805"}},
         ]}
@@ -202,7 +202,8 @@ def test_upload_rejects_bad_type(client):
 
 
 def test_text_upload_and_delete(client):
-    r = client.post("/api/documents", files={"file": ("notes.md", b"# Notes\nSome research notes here.", "text/markdown")})
+    note = ("notes.md", b"# Notes\nSome research notes here.", "text/markdown")
+    r = client.post("/api/documents", files={"file": note})
     doc = wait_ready(client, r.json()["id"])
     assert doc["status"] == "ready"
     assert client.delete(f"/api/documents/{doc['id']}").status_code == 204

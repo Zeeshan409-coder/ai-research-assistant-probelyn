@@ -30,6 +30,11 @@ class PaperSearchError(RuntimeError):
 
 
 # -------------------------------------------------------------------- arXiv
+def _arxiv_venue(entry: ET.Element) -> str:
+    cat = entry.find("arxiv:primary_category", ATOM)
+    return "arXiv" + (f" · {cat.get('term')}" if cat is not None else "")
+
+
 def parse_arxiv(xml_text: str) -> list[dict]:
     root = ET.fromstring(xml_text)
     papers = []
@@ -47,7 +52,7 @@ def parse_arxiv(xml_text: str) -> list[dict]:
                 "title": clean(e.findtext("a:title", "", ATOM)),
                 "authors": [clean(a.findtext("a:name", "", ATOM)) for a in e.findall("a:author", ATOM)],
                 "year": int(published[:4]) if published[:4].isdigit() else None,
-                "venue": "arXiv" + (f" · {c.get('term')}" if (c := e.find("arxiv:primary_category", ATOM)) is not None else ""),
+                "venue": _arxiv_venue(e),
                 "abstract": clean(e.findtext("a:summary", "", ATOM)),
                 "url": abs_url,
                 "pdf_url": pdf,

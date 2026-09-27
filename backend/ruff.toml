@@ -1,2 +1,13 @@
 line-length = 120
 target-version = "py311"
+
+[lint]
+# pyflakes, pycodestyle, import sorting, pyupgrade, bugbear
+select = ["F", "E", "W", "I", "UP", "B"]
+ignore = [
+    "B008",  # FastAPI's Depends()/File() in defaults is the documented pattern
+    "UP017", # keep timezone.utc (clearer for readers)
+]
+
+[lint.isort]
+known-first-party = ["app", "conftest"]

@@ -23,7 +23,8 @@ def test_bm25_prefers_relevant_passage():
 
 def test_best_passages_keeps_relevant_content():
     filler = "Lorem ipsum dolor sit amet consectetur. " * 60
-    text = "Intro paragraph about the page. " + filler + " Photosynthesis converts light energy into chemical energy. " + filler
+    key = " Photosynthesis converts light energy into chemical energy. "
+    text = "Intro paragraph about the page. " + filler + key + filler
     out = best_passages("what does photosynthesis convert", text, max_chars=700)
     assert "Photosynthesis" in out
     assert out.startswith("Intro")

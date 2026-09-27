@@ -113,7 +113,8 @@ async def _web(llm: LLM, question: str, depth: str, model: str | None) -> AsyncI
     merged = [r for group in zip_longest(*batches) for r in group if r]
     results = _dedupe(merged, max_sources)
     if not results:
-        yield {"event": "error", "data": {"message": "No web results found. Try rephrasing, or check your internet connection."}}
+        msg = "No web results found. Try rephrasing, or check your internet connection."
+        yield {"event": "error", "data": {"message": msg}}
         return
 
     yield {"event": "status", "data": {"step": "read", "message": f"Reading {len(results)} sources…"}}
